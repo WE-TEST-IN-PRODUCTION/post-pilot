@@ -1,7 +1,8 @@
+// INSPIRED IN https://www.azaytek.com/part-1-how-to-get-linkedin-api-access-token/
+
 import assert from "assert";
 import fs from "fs";
 import { AccessTokenResponse, UserInfoResponse } from "../types/auth.type";
-import { json } from "stream/consumers";
 
 const clientId = process.env.LINKEDIN_CLIENT_ID;
 const clientSecret = process.env.LINKEDIN_CLIENT_SECRET;
@@ -104,4 +105,26 @@ export async function getUserId(accessToken: string): Promise<string> {
     });
 
     return data.sub;
+}
+
+export function getAccessTokenFromJson(): string {
+    if (!process.env.ACCESS_TOKEN_FILEPATH) {
+        throw new Error("ACCESS_TOKEN_FILEPATH is required to save access token");
+    }
+
+    const accessTokenJson = fs.readFileSync(process.env.ACCESS_TOKEN_FILEPATH, 'utf-8');
+    const accessToken = JSON.parse(accessTokenJson) as AccessTokenResponse;
+
+    return accessToken.access_token;
+}
+
+export function getUserIdFromJson(): string {
+    if (!process.env.USER_INFO_FILEPATH) {
+        throw new Error("USER_INFO_FILEPATH is required to save user info");
+    }
+
+    const userInfoJson = fs.readFileSync(process.env.USER_INFO_FILEPATH, 'utf-8');
+    const userInfo = JSON.parse(userInfoJson) as UserInfoResponse;
+
+    return userInfo.sub;
 }
