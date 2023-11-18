@@ -27,7 +27,7 @@ export function getAuthorizationUrl(): string {
     const state = Buffer.from(
         Math.round(Math.random() * Date.now()).toString()
     ).toString("hex");
-    const scope = encodeURIComponent("w_member_social");
+    const scope = encodeURIComponent("openid profile w_member_social");
 
     return `${authorizationURL}?response_type=code&client_id=${clientId}&redirect_uri=${encodeURIComponent(
         redirectURI
@@ -79,7 +79,7 @@ export async function getUserId(accessToken: string): Promise<string> {
 
     const response = await fetch(userInfoURL, {
         headers: {
-            Authorization: `Bearer ${accessToken}`,
+            Authorization: ` Bearer ${accessToken}`,
             'cache-control': 'no-cache',
             'X-Restli-Protocol-Version': '2.0.0'
         },
