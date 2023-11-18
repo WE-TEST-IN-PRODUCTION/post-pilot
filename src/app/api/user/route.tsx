@@ -9,7 +9,7 @@ export async function GET() {
             throw new Error('No access token found')
         }
 
-        await refreshToken(accessToken);
+        // await refreshToken(accessToken);
 
         const user = getUserFromJson() as UserInfoResponse;
         return NextResponse.json(user)
