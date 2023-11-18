@@ -115,6 +115,11 @@ export function getAccessTokenFromJson(): string {
     const accessTokenJson = fs.readFileSync(process.env.ACCESS_TOKEN_FILEPATH, 'utf-8');
     const accessToken = JSON.parse(accessTokenJson) as AccessTokenResponse;
 
+    // CHECK IF ACCESS TOKEN IS VALID
+    if (!accessToken.access_token) {
+        throw new Error("Access token is not valid");
+    }
+
     return accessToken.access_token;
 }
 
@@ -137,5 +142,52 @@ export function getUserFromJson(): UserInfoResponse {
     const userInfoJson = fs.readFileSync(process.env.USER_INFO_FILEPATH, 'utf-8');
     const userInfo = JSON.parse(userInfoJson) as UserInfoResponse;
 
+    // CHECK IF USER IS VALID
+    if (!userInfo.sub) {
+        throw new Error("User info is not valid");
+    }
+
     return userInfo;
+}
+
+export async function refreshToken(accessToken: string): Promise<void> {
+    if (!accessTokenURL) {
+        throw new Error("accessTokenURL is required");
+    }
+
+    const body = {
+        grant_type: "refresh_token",
+        refresh_token: accessToken,
+        client_id: clientId,
+        client_secret: clientSecret,
+    };
+
+    const response = await fetch(accessTokenURL, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/x-www-form-urlencoded",
+        },
+        cache: "no-store",
+        body: new URLSearchParams(body as any),
+    });
+
+    if (!response.ok) {
+        throw new Error(await response.text());
+    }
+
+    const data = await response.json()
+
+    // BUILD accessTokenResponse
+    const accessTokenResponse: AccessTokenResponse = {
+        access_token: data.refresh_token,
+        expires_in: data.refresh_token_expires_in,
+        scope: data.scope,
+    }
+
+    // WRITE TO FILE
+    if (!process.env.ACCESS_TOKEN_FILEPATH) {
+        throw new Error("ACCESS_TOKEN_FILEPATH is required to save access token");
+    }
+
+    fs.writeFileSync(process.env.ACCESS_TOKEN_FILEPATH, JSON.stringify(accessTokenResponse, null, 2))
 }
