@@ -1,6 +1,7 @@
 import assert from "assert";
 import fs from "fs";
 import { AccessTokenResponse, UserInfoResponse } from "../types/auth.type";
+import { json } from "stream/consumers";
 
 const clientId = process.env.LINKEDIN_CLIENT_ID;
 const clientSecret = process.env.LINKEDIN_CLIENT_SECRET;
@@ -66,11 +67,7 @@ export async function getAccessToken(code: string): Promise<AccessTokenResponse>
         throw new Error("ACCESS_TOKEN_FILEPATH is required to save access token");
     }
 
-    fs.writeFile(process.env.ACCESS_TOKEN_FILEPATH, JSON.stringify(data, null, 2), (err) => {
-        if (err) {
-            console.error(`Error writing access token to file: ${err}`);
-        }
-    });
+    fs.writeFileSync(process.env.ACCESS_TOKEN_FILEPATH, JSON.stringify(data, null, 2))
 
     return data;
 }
@@ -83,6 +80,8 @@ export async function getUserId(accessToken: string): Promise<string> {
     const response = await fetch(userInfoURL, {
         headers: {
             Authorization: `Bearer ${accessToken}`,
+            'cache-control': 'no-cache',
+            'X-Restli-Protocol-Version': '2.0.0'
         },
     });
 
