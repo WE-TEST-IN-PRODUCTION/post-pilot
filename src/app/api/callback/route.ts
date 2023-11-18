@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getAccessToken, getUserId } from "../core/auth";
+import { redirect } from "next/navigation";
 
 export async function GET(req: NextRequest) {
     // GET THE CODE FROM REQUEST
@@ -21,8 +22,6 @@ export async function GET(req: NextRequest) {
         }, { status: 500 })
     }
 
-    console.log(accessToken.access_token)
-
     let userId;
     try {
         userId = await getUserId(accessToken.access_token)
@@ -32,5 +31,9 @@ export async function GET(req: NextRequest) {
         }, { status: 403 })
     }
 
-    return NextResponse.redirect("/")
+    // CLEAR THE '/api/callback'
+    const url = new URL(req.nextUrl.href);
+    url.pathname = "/";
+
+    redirect(url.href)
 }

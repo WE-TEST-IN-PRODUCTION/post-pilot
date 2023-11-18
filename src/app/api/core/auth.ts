@@ -52,6 +52,7 @@ export async function getAccessToken(code: string): Promise<AccessTokenResponse>
         headers: {
             "Content-Type": "application/x-www-form-urlencoded",
         },
+        cache: "no-store",
         body: new URLSearchParams(body as any),
     });
 
@@ -80,9 +81,9 @@ export async function getUserId(accessToken: string): Promise<string> {
     const response = await fetch(userInfoURL, {
         headers: {
             Authorization: `Bearer ${accessToken}`,
-            'cache-control': 'no-cache',
             'X-Restli-Protocol-Version': '2.0.0'
         },
+        cache: "no-store"
     });
 
     if (!response.ok) {

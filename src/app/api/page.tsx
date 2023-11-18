@@ -1,9 +1,11 @@
 'use client'
 
-export default function ApiPage(){
+export default function ApiPage() {
 
     const handleButton = async () => {
-        const res = await fetch(process.env.NEXT_PUBLIC_API_URL + '/auth')
+        const res = await fetch(process.env.NEXT_PUBLIC_API_URL + '/auth', {
+            cache: "no-store"
+        })
         const url = await res.text()
 
         // OPEN NEW TAB
