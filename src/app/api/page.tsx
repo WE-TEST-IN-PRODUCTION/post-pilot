@@ -1,6 +1,6 @@
 'use client'
 
-export default function ApiPage() {
+export default function ApiTestPage() {
 
     const handleButton = async () => {
         const res = await fetch(process.env.NEXT_PUBLIC_API_URL + '/auth', {
