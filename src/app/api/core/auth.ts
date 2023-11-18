@@ -128,3 +128,14 @@ export function getUserIdFromJson(): string {
 
     return userInfo.sub;
 }
+
+export function getUserFromJson(): UserInfoResponse {
+    if (!process.env.USER_INFO_FILEPATH) {
+        throw new Error("USER_INFO_FILEPATH is required to save user info");
+    }
+
+    const userInfoJson = fs.readFileSync(process.env.USER_INFO_FILEPATH, 'utf-8');
+    const userInfo = JSON.parse(userInfoJson) as UserInfoResponse;
+
+    return userInfo;
+}
