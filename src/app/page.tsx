@@ -1,123 +1,118 @@
-import Image from 'next/image'
+"use client"
+import { Box, Button, FormControl, FormLabel, Input, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, useDisclosure } from '@chakra-ui/react'
+import { useRef, useState } from 'react'
 
 export default function Home() {
+  const { isOpen, onOpen, onClose } = useDisclosure()
+
+  const initialRef = useRef(null)
+  const finalRef = useRef(null)
+  const [showDatePicker, setShowDatePicker] = useState(false);
+
+  
+
   return (
+    <>
+    <Modal
+        initialFocusRef={initialRef}
+        finalFocusRef={finalRef}
+        isOpen={isOpen}
+        onClose={onClose}
+        size={'xl'}
+      >
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>$nombre</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody pb={6}>
+            <FormControl>
+               <textarea
+                    required
+                    className="w-full h-56 rounded-lg border-gray-200 p-3 text-sm "
+                    placeholder="¿Sobre qué quieres hablar?"
+                    id="message"></textarea>
+            </FormControl>
+            {showDatePicker && (
+              <Box mt={4}>
+                {/* <DateTimePicker
+                  onChange={onChange}
+                  value={value}
+                /> */}
+              </Box>
+            )}
+          </ModalBody>
+          <ModalFooter>
+            <Button mr={3} onClick={() => setShowDatePicker(!showDatePicker)} >
+              🕘
+            </Button>
+            <Button  mr={3} type='submit'>
+              Publicar
+            </Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
+<section>
+  <div
+    className="mx-auto max-w-screen-xl px-4 py-8 sm:py-12 sm:px-6 lg:py-16 lg:px-8"
+  >
+    <div className="mx-auto max-w-lg text-center">
+      <h2 className="text-3xl font-bold sm:text-4xl">Bienvenido</h2>
 
-    < section className="bg-gray-100" >
-      <div className="mx-auto max-w-screen-xl px-4 py-16 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 gap-x-16 gap-y-8 lg:grid-cols-5">
-          <div className="lg:col-span-2 lg:py-12">
-            <p className="max-w-xl text-lg">
-              
-            </p>
-          </div>
+      <Button onClick={onOpen}>Publicar</Button>
+    </div>
 
-          <div className="rounded-lg bg-white p-8 shadow-lg lg:col-span-3 lg:p-12">
-            <form action="" className="space-y-4">
-              <div>
-                <label className="sr-only" htmlFor="name">Name</label>
-                <input
-                  className="w-full rounded-lg border-gray-200 p-3 text-sm"
-                  placeholder="Name"
-                  type="text"
-                  id="name"
-                />
-              </div>
+    <div className="mt-8 grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
+ 
+      <a className="block rounded-xl border border-gray-800 p-8 shadow-xl " href="#"
+      >
+    
+        <h2 className="mt-2 text-xl font-bold ">📅</h2>
 
-              <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-                <div>
-                  <label className="sr-only" htmlFor="email">Email</label>
-                  <input
-                    className="w-full rounded-lg border-gray-200 p-3 text-sm"
-                    placeholder="Email address"
-                    type="email"
-                    id="email"
-                  />
-                </div>
+        <p className="mt-1 text-sm ">
+            Texto
+        </p>
+      </a>
 
-                <div>
-                  <label className="sr-only" htmlFor="phone">Phone</label>
-                  <input
-                    className="w-full rounded-lg border-gray-200 p-3 text-sm"
-                    placeholder="Phone Number"
-                    type="tel"
-                    id="phone"
-                  />
-                </div>
-              </div>
+       <a
+        className="block rounded-xl border border-gray-800 p-8 shadow-xl "
+        href="#"
+      >
+    
+        <h2 className="text-xl font-bold ">📅</h2>
 
-              <div className="grid grid-cols-1 gap-4 text-center sm:grid-cols-3">
-                <div>
-                  <input
-                    className="peer sr-only"
-                    id="option1"
-                    type="radio"
-                    name="option"
-                  />
+        <p className="mt-1 text-sm ">
+            🚀 ¡Emocionado por unirme a Open Source Jam con Carlos Ignacio Cabruja Rodil y Fernando Nevot Hernández! 🚀
+            <br />
+                🌐 #OpenSourceJam #Contribución #Comunidad
+        </p>
+      </a>
 
-                  <label
-                    htmlFor="option1"
-                    className="block w-full rounded-lg border border-gray-200 p-3 text-gray-600 hover:border-black peer-checked:border-black peer-checked:bg-black peer-checked:text-white"
-                  >
-                    <span className="text-sm"> Option 1 </span>
-                  </label>
-                </div>
+       <a
+        className="block rounded-xl border border-gray-800 p-8 shadow-xl "
+        href="#"
+      >
+    
+        <h2 className="mt-2 text-xl font-bold ">📅</h2>
 
-                <div>
-                  <input
-                    className="peer sr-only"
-                    id="option2"
-                    type="radio"
-                    name="option"
-                  />
+        <p className="mt-1 text-sm ">
+            
+        </p>
+      </a>
 
-                  <label
-                    htmlFor="option2"
-                    className="block w-full rounded-lg border border-gray-200 p-3 text-gray-600 hover:border-black peer-checked:border-black peer-checked:bg-black peer-checked:text-white"
-                  >
-                    <span className="text-sm"> Option 2 </span>
-                  </label>
-                </div>
+       <a
+        className="block rounded-xl border border-gray-800 p-8 shadow-xl "
+        href="#"
+      >
+    
+        <h2 className="mt-2 text-xl font-bold ">📅</h2>
 
-                <div>
-                  <input
-                    className="peer sr-only"
-                    id="option3"
-                    type="radio"
-                    name="option"
-                  />
-
-                  <label
-                    htmlFor="option3"
-                    className="block w-full rounded-lg border border-gray-200 p-3 text-gray-600 hover:border-black peer-checked:border-black peer-checked:bg-black peer-checked:text-white"
-                  >
-                    <span className="text-sm"> Option 3 </span>
-                  </label>
-                </div>
-              </div>
-
-              <div>
-                <label className="sr-only" htmlFor="message">Message</label>
-
-                <textarea
-                  className="w-full rounded-lg border-gray-200 p-3 text-sm"
-                  placeholder="Message"
-                  id="message"
-                ></textarea>
-              </div>
-
-              <div className="mt-4">
-                <button
-                  type="submit"
-                  className="inline-block w-full rounded-lg bg-black px-5 py-3 font-medium text-white sm:w-auto"
-                >
-                  Send Enquiry
-                </button>
-              </div>
-            </form>
-          </div>
-        </div>
-      </div>
-    </section >
+        <p className="mt-1 text-sm ">
+            
+        </p>
+      </a>  
+    </div>
+  </div>
+</section>
+    </>
   )
 }
