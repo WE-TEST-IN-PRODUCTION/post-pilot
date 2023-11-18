@@ -1,3 +1,5 @@
+// INSPIRED IN https://www.azaytek.com/part-1-how-to-get-linkedin-api-access-token/
+
 import assert from "assert";
 import fs from "fs";
 import { AccessTokenResponse, UserInfoResponse } from "../types/auth.type";
@@ -26,7 +28,7 @@ export function getAuthorizationUrl(): string {
     const state = Buffer.from(
         Math.round(Math.random() * Date.now()).toString()
     ).toString("hex");
-    const scope = encodeURIComponent("w_member_social");
+    const scope = encodeURIComponent("openid profile w_member_social");
 
     return `${authorizationURL}?response_type=code&client_id=${clientId}&redirect_uri=${encodeURIComponent(
         redirectURI
@@ -51,6 +53,7 @@ export async function getAccessToken(code: string): Promise<AccessTokenResponse>
         headers: {
             "Content-Type": "application/x-www-form-urlencoded",
         },
+        cache: "no-store",
         body: new URLSearchParams(body as any),
     });
 
@@ -66,11 +69,7 @@ export async function getAccessToken(code: string): Promise<AccessTokenResponse>
         throw new Error("ACCESS_TOKEN_FILEPATH is required to save access token");
     }
 
-    fs.writeFile(process.env.ACCESS_TOKEN_FILEPATH, JSON.stringify(data, null, 2), (err) => {
-        if (err) {
-            console.error(`Error writing access token to file: ${err}`);
-        }
-    });
+    fs.writeFileSync(process.env.ACCESS_TOKEN_FILEPATH, JSON.stringify(data, null, 2))
 
     return data;
 }
@@ -83,7 +82,9 @@ export async function getUserId(accessToken: string): Promise<string> {
     const response = await fetch(userInfoURL, {
         headers: {
             Authorization: `Bearer ${accessToken}`,
+            'X-Restli-Protocol-Version': '2.0.0'
         },
+        cache: "no-store"
     });
 
     if (!response.ok) {
@@ -104,4 +105,26 @@ export async function getUserId(accessToken: string): Promise<string> {
     });
 
     return data.sub;
+}
+
+export function getAccessTokenFromJson(): string {
+    if (!process.env.ACCESS_TOKEN_FILEPATH) {
+        throw new Error("ACCESS_TOKEN_FILEPATH is required to save access token");
+    }
+
+    const accessTokenJson = fs.readFileSync(process.env.ACCESS_TOKEN_FILEPATH, 'utf-8');
+    const accessToken = JSON.parse(accessTokenJson) as AccessTokenResponse;
+
+    return accessToken.access_token;
+}
+
+export function getUserIdFromJson(): string {
+    if (!process.env.USER_INFO_FILEPATH) {
+        throw new Error("USER_INFO_FILEPATH is required to save user info");
+    }
+
+    const userInfoJson = fs.readFileSync(process.env.USER_INFO_FILEPATH, 'utf-8');
+    const userInfo = JSON.parse(userInfoJson) as UserInfoResponse;
+
+    return userInfo.sub;
 }
