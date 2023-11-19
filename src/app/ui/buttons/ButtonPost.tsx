@@ -10,6 +10,7 @@ export interface ButtonPostProps {
     timeIntervalInMinutes?: number; // Intervalo de tiempo en minutos para programar el mensaje en el futuro
     dateTime?: Date; // Fecha y hora específicas para programar el mensaje en el futuro
     disabled?: boolean; // Estado del botón (habilitado o deshabilitado)
+    closeModal: () => void; // Función para cerrar el modal
 }
 
 // Definición del componente funcional ButtonPost
@@ -19,7 +20,8 @@ export const ButtonPost: FC<ButtonPostProps> = ({
     className,
     timeIntervalInMinutes,
     dateTime,
-    disabled = false
+    disabled = false,
+    closeModal
 }) => {
 
     // Función que se ejecuta al hacer clic en el botón
@@ -43,7 +45,7 @@ export const ButtonPost: FC<ButtonPostProps> = ({
         }
 
         // Realizar una solicitud POST a la API para enviar el mensaje
-        await fetch(process.env.NEXT_PUBLIC_API_URL + '/post/send', {
+        fetch(process.env.NEXT_PUBLIC_API_URL + '/post/send', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -53,6 +55,9 @@ export const ButtonPost: FC<ButtonPostProps> = ({
                 scheduleDateTime
             })
         });
+
+        // Si se proporciona una función para cerrar el modal, ejecutarla
+        closeModal()
     }
 
     // Renderizar el componente de botón con las propiedades recibidas
@@ -62,3 +67,4 @@ export const ButtonPost: FC<ButtonPostProps> = ({
         </button>
     );
 }
+

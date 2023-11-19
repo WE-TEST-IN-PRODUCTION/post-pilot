@@ -2,7 +2,6 @@
 
 import * as React from "react";
 import DashboardHeader from "./DashboardHeader";
-import DashboardPostForm from "./DashboardPostForm";
 import DashboardSidebar from "./DashboardSidebar";
 import DashboardMainPanel from "./DashboardMainPanel";
 
@@ -18,7 +17,7 @@ const DashboardPage: React.FC<UserProfileInfoType> = ({ name, picture }) => {
   return (
     <main>
       <DashboardSidebar  name={name} picture={picture} onTabClick={setTab} />
-      <DashboardMainPanel selectedTab={tab} />
+      <DashboardMainPanel selectedTab={tab} name={name} picture={picture} />
     </main>
   );
 };
