@@ -1,12 +1,16 @@
-"use client";
-
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import { ButtonPost, ButtonPostProps } from "../../buttons/ButtonPost";
 
-const MainPanelPostForm: React.FC = () => {
-  const [userMessage, setUserMessage] = useState<string>("");
+interface MainPanelPostFormProps {
+  setShowModal: React.Dispatch<React.SetStateAction<boolean>>;
+  showModal: boolean;
+}
 
-  // Manejar cambios en el textarea
+export const MainPanelPostForm: React.FC<MainPanelPostFormProps> = ({ showModal, setShowModal }) => {
+  const [selectedDate, setSelectedDate] = useState<any>(null);
+  const [selectedHour, setSelectedHour] = useState<any>(null);
+  const [userMessage, setUserMessage] = React.useState<string>("");
+
   const handleTextareaChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     setUserMessage(event.target.value);
   };
@@ -14,21 +18,58 @@ const MainPanelPostForm: React.FC = () => {
   const buttonProps: ButtonPostProps = {
     children: "Enviar post",
     message: userMessage,
-    className: "p-2 rounded-md font-semibold border-2",
+    className: "p-2 rounded-md font-semibold border-2 border-fun-blue-500 bg-fun-blue-400 hover:bg-fun-blue-300",
     timeIntervalInMinutes: 1,
     disabled: false,
   };
 
   return (
-    <div className="p-8 text-white flex flex-col items-center space-y-4">
-      <h1 className="font-bold">Enviar post</h1>
-      <textarea
-        className="resize-none h-24 w-72 text-black"
-        placeholder="Escribe tu publicación aquí"
-        value={userMessage}
-        onChange={handleTextareaChange}
-      />
-      <ButtonPost {...buttonProps} />
+    <div className="relative z-10 text-grey" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+      <div className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"></div>
+
+      <div className="fixed inset-0 z-10 w-screen overflow-y-auto">
+        <div className="w-full h-screen flex justify-center items-center fixed inset-0">
+          <div className="flex flex-col space-y-4 bg-[#323637] rounded-md px-24 py-16">
+            <h1 className="text-center text-4xl">New post</h1>
+            <div className="w-full h-full p-2">
+              <div className="w-full h-full ">
+                <label htmlFor="postTitle" className="font-semibold">
+                  Post content *:
+                </label>
+                <textarea
+                  onChange={handleTextareaChange}
+                  id="postContent"
+                  name="postContent"
+                  className="w-full h-36 rounded-lg p-2 text-black"
+                  placeholder="Your message"
+                ></textarea>
+              </div>
+            </div>
+
+            <div className="p-2 mt-4 flex flex-col space-y-4">
+              <label htmlFor="repetition" className="font-semibold col-span-5">
+                When do you want to post it?
+              </label>
+              <div className="flex flex-col">
+                <label htmlFor="from" className="text-white">
+                  Day
+                </label>
+                <input type="date" id="from" name="from" className="p-1 text-black" />
+              </div>
+              <div className="flex flex-col">
+                <label htmlFor="time" className="text-white">
+                  Post in
+                </label>
+                <input type="time" id="time" name="time" className="border rounded-lg p-1 text-black" />
+              </div>
+            </div>
+            <div className="flex flex-row justify-between mt-4">
+              <button className="p-2 rounded-md font-semibold border-2 border-white hover:text-black hover:bg-white" onClick={() => setShowModal(!showModal)}>Close</button>
+              <ButtonPost {...buttonProps} />
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   );
 };

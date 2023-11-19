@@ -1,18 +1,20 @@
 import React from "react";
-import DashboardPostForm from "./DashboardPostForm";
 import MainPanelScheduledPosts from "./mainpanel/MainPanelScheduledPosts";
 import MainPanelSettings from "./mainpanel/MainPanelSettings";
+import MainPanelPost from "./mainpanel/MainPanelPost";
 
 interface DashboardMainPanelProps {
     selectedTab: string;
+    name: string;
+    picture: string;
 }
 
-const DashboardMainPanel:React.FC<DashboardMainPanelProps> = ({ selectedTab }) => {
+const DashboardMainPanel:React.FC<DashboardMainPanelProps> = ({ selectedTab, name, picture }) => {
 
   const renderSelectedComponent = () => {
     switch (selectedTab) {
       case "tab1":
-        return <DashboardPostForm />;
+        return <MainPanelPost name={name} picture={picture} />;
       case "tab2":
         return <MainPanelScheduledPosts />;
       case "tab3":
