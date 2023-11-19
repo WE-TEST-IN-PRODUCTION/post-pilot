@@ -10,17 +10,24 @@ export const MainPanelPostForm: React.FC<MainPanelPostFormProps> = ({ showModal,
   const [selectedDate, setSelectedDate] = useState<any>(null);
   const [selectedHour, setSelectedHour] = useState<any>(null);
   const [userMessage, setUserMessage] = React.useState<string>("");
+  const [timeInterval, setTimeInterval] = useState<number>(0); // [minutes]
 
   const handleTextareaChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     setUserMessage(event.target.value);
   };
 
+  const handleSelectChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setTimeInterval(parseInt(event.target.value));
+  };
+
+
   const buttonProps: ButtonPostProps = {
     children: "Enviar post",
     message: userMessage,
     className: "p-2 rounded-md font-semibold border-2 border-fun-blue-500 bg-fun-blue-400 hover:bg-fun-blue-300",
-    timeIntervalInMinutes: 1,
+    timeIntervalInMinutes: timeInterval === 0 ? undefined : timeInterval,
     disabled: false,
+    closeModal: () => setShowModal(!showModal),
   };
 
   return (
@@ -60,7 +67,12 @@ export const MainPanelPostForm: React.FC<MainPanelPostFormProps> = ({ showModal,
                 <label htmlFor="time" className="text-white">
                   Post in
                 </label>
-                <input type="time" id="time" name="time" className="border rounded-lg p-1 text-black" />
+                <select className="text-black" id="timeSelect" value={timeInterval} onChange={handleSelectChange}>
+                  <option value="0">YA</option>
+                  <option value="3">3 minutos después</option>
+                  <option value="5">5 minutos después</option>
+                  <option value="10">10 minutos después</option>
+                </select>
               </div>
             </div>
             <div className="flex flex-row justify-between mt-4">
