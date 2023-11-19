@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { FC } from "react";
-import useAuth from "../hooks/useAuth";
+import useAuth from "../../hooks/useAuth";
 
 export interface LinkedInButtonProps {
   width?: number;

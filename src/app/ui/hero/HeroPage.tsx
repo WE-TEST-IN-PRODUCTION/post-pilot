@@ -1,5 +1,5 @@
-import HeroPageHeader from "./hero/HeroPageHeader";
-import HeroPageMain from "./hero/HeroPageMain";
+import HeroPageHeader from "./HeroPageHeader";
+import HeroPageMain from "./HeroPageMain";
 
 const HeroPage: React.FC = () => {
   return (

@@ -1,4 +1,4 @@
-import { LinkedInButton } from "../LinkedInButton";
+import { LinkedInButton } from "../buttons/LinkedInButton";
 
 const HeroPageHeader: React.FC = () => {
   return (

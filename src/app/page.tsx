@@ -1,6 +1,6 @@
 import * as React from "react";
-import DashboardPage from "./ui/DashboardPage";
-import HeroPage from "./ui/HeroPage";
+import DashboardPage from "./ui/dashboard/DashboardPage";
+import HeroPage from "./ui/hero/HeroPage";
 import { UserInfoResponse } from "./api/types/auth.type";
 
 export default async function Home() {
