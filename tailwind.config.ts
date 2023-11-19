@@ -8,6 +8,9 @@ const config: Config = {
   ],
   theme: {
     extend: {
+      fontFamily: {
+        figtree: ["Figtree", "sans-serif"],
+      },
       colors: {
         "fun-blue": {
           "50": "#f2f7fd",
