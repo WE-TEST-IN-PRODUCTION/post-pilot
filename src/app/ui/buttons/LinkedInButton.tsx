@@ -3,6 +3,8 @@
 import Image from "next/image";
 import { FC } from "react";
 import useAuth from "../../hooks/useAuth";
+import Head from "next/head";
+import Swal from "sweetalert2";
 
 export interface LinkedInButtonProps {
   width?: number;
@@ -11,9 +13,30 @@ export interface LinkedInButtonProps {
 
 export const LinkedInButton: FC<LinkedInButtonProps> = ({ width, height }) => {
   const { authenticate } = useAuth();
+  
+const showToast = () => {
+    const Toast = Swal.mixin({
+      toast: true,
+      position: 'bottom-end',
+      showConfirmButton: false,
+      timer: 3000,
+      timerProgressBar: true,
+      didOpen: (toast) => {
+        toast.addEventListener('mouseenter', Swal.stopTimer);
+        toast.addEventListener('mouseleave', Swal.resumeTimer);
+      },
+    });
 
+    Toast.fire({
+      icon: 'success',
+      title: 'Signed in successfully',
+    });
+  };
   return (
-    <a onClick={authenticate} className="cursor-pointer">
+    <a onClick={() => {
+        authenticate();
+        showToast();
+      }} className="cursor-pointer">
       <Image
         src="/assets/linkedin.png"
         alt="LinkedIn"
