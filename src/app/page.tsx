@@ -7,7 +7,9 @@ export default async function Home() {
     cache: "no-store",
   });
 
-  const data = await res.text();
+  const data = await res.text(, {
+    cache: "no-store",
+  });
 
   if (res.status === 200) {
     return <DashboardPage />;

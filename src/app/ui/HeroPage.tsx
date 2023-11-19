@@ -1,5 +1,7 @@
 "use client"
 
+'use client';
+
 import { LinkedInButton } from "./LinkedInButton";
 import Image from "next/image";
 
