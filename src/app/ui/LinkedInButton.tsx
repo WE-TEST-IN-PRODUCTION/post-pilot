@@ -16,7 +16,7 @@ export const LinkedInButton: FC = ({
         const url = await res.text()
 
         // OPEN NEW TAB
-        window.open(url, "_self")
+        window.open(url)
     }
 
     return (
